@@ -1,9 +1,14 @@
 {% extends "default.html" %}
 {% block content %}
-<h1>{{ name }} <small>@{{ username }}</small></h1>
+<h2>{{ name }} <small>@{{ username }}</small></h2>
+<form action="/post" method="post">
+	<textarea class="form-control" placeholder="@{{ username }}" name="text" required>@{{ username }} </textarea>
+	<input type="hidden" name="from_user" value="{{ username }}">
+	<button class="btn btn-primary" type="submit">pip til @{{ username }}</button>
+</form>
 {% for pip in pips %}
 	<hr>
-	<b>{{ pip.name }}</b> @{{ pip.username }} · {{ pip.time }}<br>
+	<b><a href="/user/{{ pip.username }}">{{ pip.name }}</a></b> @{{ pip.username }} · {{ pip.time }}<br>
 	<p>{{ pip.text }}</p>
 {% endfor %}
 {% endblock %}

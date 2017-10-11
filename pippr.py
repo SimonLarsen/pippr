@@ -53,6 +53,11 @@ def get_recent_pips(count):
 def get_user_pips(username):
     return [t for t in pips[::-1] if t["username"] == username]
 
+""" Returner alle tweets der nævner en bruger.
+"""
+def get_mentions(username):
+    return [t for t in pips[::-1] if username in t["text"]]
+
 """ Returner alle tweets der indeholder søgestrengen "text".
 """
 def search_pips(text):

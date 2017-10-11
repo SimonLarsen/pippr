@@ -1,7 +1,7 @@
 {% extends "default.html" %}
 {% block content %}
-	<form action="post" method="post">
-		<textarea class="form-control" placeholder="Hvad så?" name="text"></textarea>
+	<form action="/post" method="post">
+		<textarea class="form-control" placeholder="Hvad så?" name="text" required></textarea>
 		<button class="btn btn-primary" type="submit">pip</button>
 	</form>
 	{% for pip in pips %}

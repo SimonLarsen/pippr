@@ -52,12 +52,21 @@ def post():
     text = request.form["text"]
 
     pippr.post_pip(username, text)
-    return redirect(url_for("index"))
+    if "from_user" in request.form:
+        return redirect("/user/" + request.form["from_user"])
+    else:
+        return redirect(url_for("index"))
 
 @app.route("/profile")
 def profile():
     username = session["username"]
     return redirect("/user/" + username)
+
+@app.route("/mentions")
+def mentions():
+    username = session["username"]
+    pips = prepare_pips(pippr.get_mentions(username))
+    return render_template("mentions.html", username=username, pips=pips)
 
 @app.route("/user/<username>")
 def userpage(username):

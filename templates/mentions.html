@@ -1,6 +1,6 @@
 {% extends "default.html" %}
 {% block content %}
-<h2>Searching for "{{ query }}"</h2>
+<h2>Mentioning @{{ username }}</h2>
 {% for pip in pips %}
 	<hr>
 	<b><a href="/user/{{ pip.username }}">{{ pip.name }}</a></b> @{{ pip.username }} · {{ pip.time }}<br>
