@@ -8,18 +8,15 @@ import pippr
 app = Flask(__name__)
 app.secret_key = "M4gyf4xnYLaLM8Cn"
 
-def prepare_pips(pips):
-    out = []
+def add_names(pips):
     for pip in pips:
-        t = pip.copy()
-        t["name"] = pippr.get_name(t["username"])
-        out.append(t)
-    return out
+        pip["name"] = pippr.get_name(pip["username"])
+    return pips
 
 @app.route("/")
 def index():
     if "username" in session:
-        pips = prepare_pips(pippr.get_recent_pips(20))
+        pips = add_names(pippr.get_recent_pips(20)[::-1])
         return render_template("timeline.html", pips=pips)
     else:
         return render_template("login.html")
@@ -65,19 +62,19 @@ def profile():
 @app.route("/mentions")
 def mentions():
     username = session["username"]
-    pips = prepare_pips(pippr.get_mentions(username))
+    pips = add_names(pippr.get_mentions(username)[::-1])
     return render_template("mentions.html", username=username, pips=pips)
 
 @app.route("/user/<username>")
 def userpage(username):
-    pips = prepare_pips(pippr.get_user_pips(username))
+    pips = add_names(pippr.get_user_pips(username)[::-1])
     name = pippr.get_name(username)
     return render_template("user.html", username=username, name=name, pips=pips)
 
 @app.route("/search", methods=["GET"])
 def search():
     query = request.args.get("q")
-    pips = prepare_pips(pippr.search_pips(query))
+    pips = add_names(pippr.search_pips(query)[::-1])
     return render_template("search.html", query=query, pips=pips)
 
 if __name__ == "__main__":
