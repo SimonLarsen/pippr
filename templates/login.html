@@ -6,6 +6,11 @@
 	</div>
 
 	<h2>Log in</h2>
+
+	{% if error == "login" %}
+	<div class="alert alert-info" role="alert">The username or password was not found.</div>
+	{% endif %}
+
 	<form action="/login" method="post">
 		<div class="form-group">
 			<label for="loginUsername">Username</label>
@@ -19,6 +24,11 @@
 	</form>
 	
 	<h2>Register</h2>
+
+	{% if error == "register" %}
+	<div class="alert alert-info" role="alert">The requested username is already taken.</div>
+	{% endif %}
+
 	<form action="/register" method="post">
 		<div class="form-group">
 			<label for="registerUsername">Username</label>

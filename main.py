@@ -19,7 +19,7 @@ def index():
         pips = add_names(pippr.get_recent_pips(20)[::-1])
         return render_template("timeline.html", pips=pips)
     else:
-        return render_template("login.html")
+        return render_template("login.html", error=request.args.get("error"))
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -27,7 +27,9 @@ def login():
     password = request.form["password"]
     if pippr.check_user(username, password):
         session["username"] = username
-    return redirect(url_for("index"))
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for("index", error="login"))
 
 @app.route("/logout")
 def logout():
@@ -41,7 +43,9 @@ def register():
     password = request.form["password"]
     if pippr.register_user(username, name, password):
         session["username"] = username
-    return redirect(url_for("index"))
+        return redirect(url_for("index"))
+    else:
+        return redirect(url_for("index", error="register"))
 
 @app.route("/post", methods=["POST"])
 def post():
@@ -50,14 +54,14 @@ def post():
 
     pippr.post_pip(username, text)
     if "from_user" in request.form:
-        return redirect("/user/" + request.form["from_user"])
+        return redirect(url_for("userpage", username=request.form["from_user"]))
     else:
         return redirect(url_for("index"))
 
 @app.route("/profile")
 def profile():
     username = session["username"]
-    return redirect("/user/" + username)
+    return redirect(url_for("userpage", username=username))
 
 @app.route("/mentions")
 def mentions():

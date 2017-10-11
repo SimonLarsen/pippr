@@ -1,9 +1,22 @@
 import time
 
+"""
+"pips" er en liste der skal indeholder alle pip der er blevet skrevet.
+Hvert pip skal været et dictionary der indeholder følgende tre felter:
+    username: Brugernavnet på forfatteren af pippet. (str)
+    text: Selve brødteksten for pippet. (str)
+    time: Dato og klokkeslæt for pippet. (str)
+"""
 pips = [
     {"username": "admin", "text": "Dette er et test pip!", "time": "Wed Oct 11 12:34:48 2017"}
 ]
 
+"""
+"users" er et dictionary der indeholder alle registrerede brugere.
+Hver nøgle er et brugernavn og den tilsværende værdi er et dictionary der indeholder følgende felter:
+    name: Kaldenavn for brugeren. (str)
+    password: Kodeord for brugeren. (str)
+"""
 users = {
     "admin": { "name": "Admin", "password": "test123"}
 }
@@ -44,7 +57,9 @@ def register_user(username, name, password):
 """ Tilføj et nyt pip til databasen.
 
 Funktionen skal tilføje et nyt pip til listen af pips.
-Skal ikke returnere noget.
+Tidpunktet for tweetet er ikke givet - dette skal du selv tilføje.
+Du kan få en streng med nuværende dato/klokkeslet med time.ctime().
+Funktionen ikke returnere noget.
 
 Argumenter:
     username: Brugernavn for forfatteren af det nye pip.
