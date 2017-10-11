@@ -1,0 +1,9 @@
+{% extends "default.html" %}
+{% block content %}
+<h1>Searching for "{{ query }}"</h1>
+{% for pip in pips %}
+	<hr>
+	<b><a href="/profile/{{ pip.username }}">{{ pip.name }}</a></b> @{{ pip.username }} · {{ pip.time }}<br>
+	<p>{{ pip.text }}</p>
+{% endfor %}
+{% endblock %}

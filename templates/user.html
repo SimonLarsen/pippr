@@ -1,0 +1,9 @@
+{% extends "default.html" %}
+{% block content %}
+<h1>{{ name }} <small>@{{ username }}</small></h1>
+{% for pip in pips %}
+	<hr>
+	<b>{{ pip.name }}</b> @{{ pip.username }} · {{ pip.time }}<br>
+	<p>{{ pip.text }}</p>
+{% endfor %}
+{% endblock %}
