@@ -32,6 +32,9 @@ Argumenter:
     password: Kodeord for bruger.
 """
 def check_user(username, password):
+    if username in users:
+        if users[username]["password"] == password:
+            return True
     return False
 
 """ Registrer ny bruger.
@@ -46,7 +49,10 @@ Argumenter:
     password: Kodeord for ny bruger.
 """
 def register_user(username, name, password):
-    return False
+    if username in users:
+        return False
+    users[username] = {"name": name, "password": password}
+    return True
 
 """ Tilføj et nyt pip til databasen.
 
@@ -60,7 +66,8 @@ Argumenter:
     text: Brødteksten for det nye pip.
 """
 def post_pip(username, text):
-    pass
+    ctime = time.ctime()
+    pips.append({"username": username, "text": text, "time": ctime})
 
 """ Returner kaldenavn for bruger.
 
@@ -70,7 +77,7 @@ Argumenter:
     username: Brugernavn for brugeren.
 """
 def get_name(username):
-    return "Placeholder name"
+    return users[username]["name"]
 
 """ Returner de seneste pips.
 
@@ -80,7 +87,7 @@ Argumenter:
     count: En integer der fortæller hvor mange pips der skal returneres.
 """
 def get_recent_pips(count):
-    return []
+    return pips[-count:]
 
 """ Returner alle pip skrevet af specifik bruger.
 
@@ -90,7 +97,7 @@ Argumenter:
     username: Brugernavn for brugeren hvis pip skal returneres.
 """
 def get_user_pips(username):
-    return []
+    return [t for t in pips if t["username"] == username]
 
 """ Returner alle tweets der nævner en bruger.
 
@@ -100,7 +107,7 @@ Argumenter:
     username: Brugernavn for bruger der skal være nævnt.
 """
 def get_mentions(username):
-    return []
+    return [t for t in pips if username in t["text"]]
 
 """ Returner alle tweets der indeholder søgestrengen "text".
 
@@ -110,4 +117,4 @@ Argumenter:
     text: Søgetekst der skal søges efter.
 """
 def search_pips(text):
-    return []
+    return [t for t in pips if text in t["text"]]
