@@ -1,48 +1,67 @@
 {% extends "base.html" %}
+{% block head %}
+<style type="text/css">
+body {
+	background-color: #2c3e50;
+}
+
+h1 {
+	color: white;
+}
+</style>
+{% endblock %}
 {% block body %}
 <div class="container">
 	<div class="page-header">
 		<h1>Welcome to pippr!</h1>
 	</div>
 
-	<h2>Log in</h2>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h2>Log in</h2>
 
-	{% if error == "login" %}
-	<div class="alert alert-info" role="alert">The username or password was not found.</div>
-	{% endif %}
+			{% if error == "login" %}
+			<div class="alert alert-info" role="alert">The username or password was not found.</div>
+			{% endif %}
 
-	<form action="/login" method="post">
-		<div class="form-group">
-			<label for="loginUsername">Username</label>
-			<input type="text" class="form-control" id="loginUsername" placeholder="Username" name="username" required>
+			<form action="/login" method="post">
+				<div class="form-group">
+					<label for="loginUsername">Username</label>
+					<input type="text" class="form-control" id="loginUsername" placeholder="Username" name="username" required>
+				</div>
+				<div class="form-group">
+					<label for="loginPassword">Password</label>
+					<input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password" required>
+				</div>
+				<button type="submit" class="btn btn-primary">Log in</button>
+			</form>
 		</div>
-		<div class="form-group">
-			<label for="loginPassword">Password</label>
-			<input type="password" class="form-control" id="loginPassword" placeholder="Password" name="password" required>
-		</div>
-		<button type="submit" class="btn btn-primary">Log in</button>
-	</form>
+	</div>
 	
-	<h2>Register</h2>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			<h2>Register</h2>
 
-	{% if error == "register" %}
-	<div class="alert alert-info" role="alert">The requested username is already taken.</div>
-	{% endif %}
+			{% if error == "register" %}
+			<div class="alert alert-info" role="alert">The requested username is already taken.</div>
+			{% endif %}
 
-	<form action="/register" method="post">
-		<div class="form-group">
-			<label for="registerUsername">Username</label>
-			<input type="text" class="form-control" id="registerUsername" placeholder="Username" name="username" required>
+			<form action="/register" method="post">
+				<div class="form-group">
+					<label for="registerUsername">Username</label>
+					<input type="text" class="form-control" id="registerUsername" placeholder="Username" name="username" required>
+				</div>
+				<div class="form-group">
+					<label for="registerName">Screen name</label>
+					<input type="text" class="form-control" id="registerName" placeholder="Screen name" name="name" required>
+				</div>
+				<div class="form-group">
+					<label for="registerPassword">Password</label>
+					<input type="password" class="form-control" id="registerPassword" placeholder="Password" name="password" required>
+				</div>
+				<button type="submit" class="btn btn-primary">Register</button>
+			</form>
 		</div>
-		<div class="form-group">
-			<label for="registerName">Screen name</label>
-			<input type="text" class="form-control" id="registerName" placeholder="Screen name" name="name" required>
-		</div>
-		<div class="form-group">
-			<label for="registerPassword">Password</label>
-			<input type="password" class="form-control" id="registerPassword" placeholder="Password" name="password" required>
-		</div>
-		<button type="submit" class="btn btn-primary">Register</button>
-	</form>
+	</div>
 </div>
 {% endblock %}
