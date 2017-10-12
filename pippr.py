@@ -1,4 +1,5 @@
 import time
+import pickle
 
 """
 "pips" er en liste der skal indeholder alle pip der er blevet skrevet.
@@ -32,12 +33,15 @@ Argumenter:
     password: Kodeord for bruger.
 """
 def check_user(username, password):
+    if username in users:
+        if users[username]["password"] == password:
+            return True
     return False
 
 """ Registrer ny bruger.
 
-Funktionen skal tilføje en ny brugere til "users" med de givne brugernavn, navn og kodeord.
-Funktionen skal returnere returnere False hvis der allerede eksisterer en bruger med dette navn
+Funktionen skal tilføje en ny brugere til "users" med det givne brugernavn, kaldenavn og kodeord.
+Funktionen skal returnere False hvis der allerede eksisterer en bruger med dette navn
 eller returnere True hvis brugeren blev oprettet uden problemer.
 
 Argumenter:
@@ -46,21 +50,25 @@ Argumenter:
     password: Kodeord for ny bruger.
 """
 def register_user(username, name, password):
-    return False
+    if username in users:
+        return False
+    users[username] = {"name": name, "password": password}
+    return True
 
 """ Tilføj et nyt pip til databasen.
 
-Funktionen skal tilføje et nyt pip til listen af pips.
+Funktionen skal tilføje et nyt pip til listen af pip.
 Tidpunktet for tweetet er ikke givet - dette skal du selv tilføje.
 Du kan få en streng med nuværende dato/klokkeslet med time.ctime().
-Funktionen ikke returnere noget.
+Denne funktionen ikke returnere noget.
 
 Argumenter:
     username: Brugernavn for forfatteren af det nye pip.
     text: Brødteksten for det nye pip.
 """
 def post_pip(username, text):
-    pass
+    ctime = time.ctime()
+    pips.append({"username": username, "text": text, "time": ctime})
 
 """ Returner kaldenavn for bruger.
 
@@ -70,7 +78,7 @@ Argumenter:
     username: Brugernavn for brugeren.
 """
 def get_name(username):
-    return "Placeholder name"
+    return users[username]["name"]
 
 """ Returner de seneste pips.
 
@@ -80,7 +88,7 @@ Argumenter:
     count: En integer der fortæller hvor mange pips der skal returneres.
 """
 def get_recent_pips(count):
-    return []
+    return pips[-count:]
 
 """ Returner alle pip skrevet af specifik bruger.
 
@@ -90,7 +98,7 @@ Argumenter:
     username: Brugernavn for brugeren hvis pip skal returneres.
 """
 def get_user_pips(username):
-    return []
+    return [t for t in pips if t["username"] == username]
 
 """ Returner alle tweets der nævner en bruger.
 
@@ -100,7 +108,7 @@ Argumenter:
     username: Brugernavn for bruger der skal være nævnt.
 """
 def get_mentions(username):
-    return []
+    return [t for t in pips if username in t["text"]]
 
 """ Returner alle tweets der indeholder søgestrengen "text".
 
@@ -110,4 +118,30 @@ Argumenter:
     text: Søgetekst der skal søges efter.
 """
 def search_pips(text):
-    return []
+    return [t for t in pips if text in t["text"]]
+
+""" Indlæs persistent data.
+
+Funktionen skal indlæse brugerdata og pips fra disken og gemme dem i "users"
+og "pips" variablene. Hvis der ikke er noget data at læse skal funktionen
+fortsætte uden at give en fejl.
+Funktionen skal ikke returnere noget.
+"""
+def load_data():
+    global users
+    global pips
+    try:
+        users = pickle.load(open("users.pkl", "rb"))
+        pips = pickle.load(open("pips.pkl", "rb"))
+    except:
+        print("No persistent data found.")
+
+""" Gem persistent data.
+
+Funktionen skal gemme brugerdata og pips til disken så de senere kan indlæses
+med load_data().
+Funktionen skal ikke returnere noget.
+"""
+def save_data():
+    pickle.dump(users, open("users.pkl", "wb"))
+    pickle.dump(pips, open("pips.pkl", "wb"))

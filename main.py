@@ -51,12 +51,8 @@ def register():
 def post():
     username = session["username"]
     text = request.form["text"]
-
     pippr.post_pip(username, text)
-    if "from_user" in request.form:
-        return redirect(url_for("userpage", username=request.form["from_user"]))
-    else:
-        return redirect(url_for("index"))
+    return redirect(url_for("index"))
 
 @app.route("/profile")
 def profile():
@@ -82,4 +78,9 @@ def search():
     return render_template("search.html", query=query, pips=pips)
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0")
+    try:
+        pippr.load_data()
+        app.run(host="0.0.0.0")
+    finally:
+        print("Shutting down pippr.")
+        pippr.save_data()
